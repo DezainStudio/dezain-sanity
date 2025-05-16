@@ -99,6 +99,63 @@ export const portfolio = defineType({
         {
           type: 'video',
         },
+        {
+          name: 'gallery',
+          type: 'object',
+          title: 'Gallery',
+          fields: [
+            {
+              name: 'images',
+              type: 'array',
+              title: 'Images',
+              of: [
+                {
+                  type: 'image',
+                  options: {
+                    hotspot: true
+                  },
+                  fields: [
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                      description: 'Caption for this image'
+                    },
+                    {
+                      name: 'alt',
+                      type: 'string',
+                      title: 'Alternative text',
+                      description: 'Important for SEO and accessibility'
+                    }
+                  ]
+                }
+              ],
+              options: {
+                layout: 'grid'
+              }
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Gallery Caption',
+              description: 'Caption for the entire gallery'
+            }
+          ],
+          preview: {
+            select: {
+              images: 'images',
+              caption: 'caption'
+            },
+            prepare(selection) {
+              const {images, caption} = selection
+              return {
+                title: caption || 'Gallery',
+                subtitle: `Gallery with ${images ? images.length : 0} image(s)`,
+                media: images && images.length > 0 ? images[0] : null
+              }
+            }
+          }
+        },
       ],
     },
     {
