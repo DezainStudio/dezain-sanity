@@ -183,15 +183,21 @@ export const portfolio = defineType({
     },
     {
       name: 'workType',
-      title: 'Type of Work',
-      type: 'reference',
-      to: [{ type: 'workType' }],
+      title: 'Types of Work',
+      type: 'array',
+      of: [{
+        type: 'reference',
+        to: [{ type: 'workType' }],
+      }],
     },
     {
       name: 'clientType',
-      title: 'Type of Client',
-      type: 'reference',
-      to: [{ type: 'clientType' }],
+      title: 'Types of Client',
+      type: 'array',
+      of: [{
+        type: 'reference',
+        to: [{ type: 'clientType' }],
+      }],
     },
   ],
   preview: {
