@@ -5,5 +5,6 @@ import { skill } from './skill'
 import { service } from './service'
 import { workType } from './workType'
 import { clientType } from './clientType'
+import { termsAndConditions } from './termsAndConditions'
 
-export const schemaTypes = [creator, portfolio, video, skill, service, workType, clientType]
+export const schemaTypes = [creator, portfolio, video, skill, service, workType, clientType, termsAndConditions]
