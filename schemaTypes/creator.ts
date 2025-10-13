@@ -1,10 +1,13 @@
 import { defineType } from 'sanity'
+import { i18nSharedFields, slugifyLocale, isUniqueSlugWithinLocale, withI18nInitialValue } from './i18n'
 
 export const creator = defineType({
   name: 'creator',
   title: 'Creator',
   type: 'document',
+  initialValue: withI18nInitialValue(),
   fields: [
+    ...i18nSharedFields(),
     {
       name: 'name',
       title: 'Name',
@@ -18,6 +21,8 @@ export const creator = defineType({
       options: {
         source: 'name',
         maxLength: 96,
+        slugify: (input: string, _schemaType: any, context: any) => slugifyLocale(input, context?.document?.locale),
+        isUnique: isUniqueSlugWithinLocale,
       },
     },
     {
