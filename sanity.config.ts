@@ -2,16 +2,16 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-import { deskStructure } from './deskStructure'
+import {deskStructure} from './deskStructure'
 
 export default defineConfig({
   name: 'default',
   title: 'Dezaın Studıo',
 
-  projectId: '15jlhba6',
+  projectId: process.env.SANITY_PROJECT_ID || '15jlhba6',
   dataset: process.env.SANITY_DATASET || 'v2',
 
-  plugins: [structureTool({ structure: deskStructure }), visionTool()],
+  plugins: [structureTool({structure: deskStructure}), visionTool()],
 
   schema: {
     types: schemaTypes,
