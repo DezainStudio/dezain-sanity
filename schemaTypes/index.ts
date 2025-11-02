@@ -15,6 +15,8 @@ import {testimonial} from './testimonial'
 import {landing} from './landing'
 import {cardCarousel} from './cardCarousel'
 import {imageCTA} from './imageCTA'
+import {newsroomCategory} from './newsroomCategory'
+import {newsroomArticle} from './newsroomArticle'
 
 export const schemaTypes = [
   // Content types
@@ -25,11 +27,13 @@ export const schemaTypes = [
   testimonial,
   legal,
   landing,
+  newsroomArticle,
   // Taxonomies / enums (non-localized)
   skill,
   workType,
   clientType,
   serviceType,
+  newsroomCategory,
   cardCarousel,
   imageCTA,
   // i18n infra

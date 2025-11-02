@@ -28,7 +28,7 @@ Scripts (from `package.json`):
 Environment/dataset:
 
 - `sanity.config.ts` uses `process.env.SANITY_DATASET || 'v2'`.
-- `sanity.cli.ts` currently points to dataset `portfolios`.
+- `sanity.cli.ts` currently points to dataset `process.env.SANITY_DATASET || 'v2'`.
 - Choose one dataset name and align both files (recommended).
 
 ---
@@ -39,8 +39,8 @@ Environment/dataset:
 - `deskStructure.ts` → custom Desk; groups content by locale; adds per‑locale Landing singleton.
 - `schemaTypes/` → all schemas and i18n utilities:
   - `i18n.ts` → `ACTIVE_LOCALES`, `DEFAULT_LOCALE`, `i18nSharedFields()`, `slugifyLocale()`, `isUniqueSlugWithinLocale()`, `withI18nInitialValue()`.
-  - Localized content: `landing.ts` (singleton), `service.ts`, `portfolio.ts`, `creator.ts`, `testimonial.ts`, `legal.ts`, `video.ts`, `redirect.ts`.
-  - Non‑localized taxonomies: `serviceType.ts`, `skill.ts`, `workType.ts`, `clientType.ts`.
+  - Localized content: `landing.ts` (singleton), `service.ts`, `portfolio.ts`, `newsroomArticle.ts`, `creator.ts`, `testimonial.ts`, `legal.ts`, `video.ts`, `redirect.ts`.
+  - Non‑localized taxonomies: `serviceType.ts`, `skill.ts`, `workType.ts`, `clientType.ts`, `newsroomCategory.ts`.
   - i18n infra: `siteSettings.ts`, `dictionary.ts`, `glossaryTerm.ts`.
   - Reusable blocks: `cardCarousel.ts`.
 
@@ -87,7 +87,7 @@ Sibling resolution examples (GROQ):
 - Under each locale:
   - `Landing` → singleton opened by fixed ID: `landing-<locale>`.
   - Lists for localized types (Service, Portfolio, Creator, Legal, Testimonial, Video, Redirect, Site Settings, Dictionary).
-- A separate “Taxonomies” group contains non‑localized types (Service Types, Skills, Work Types, Client Types) and `Glossary`.
+- A separate “Taxonomies” group contains non‑localized types (Service Types, Skills, Work Types, Client Types, Newsroom Categories) and `Glossary`.
 
 File: `deskStructure.ts`.
 
@@ -98,10 +98,12 @@ File: `deskStructure.ts`.
 ### Localized Content
 
 - `landing` (singleton per locale)
+
   - Hero (heading, subheading, description, button, media)
   - Sections: `richSection` (title/body/image), `cardCarousel` (reusable block)
 
 - `service`
+
   - Section 1: Title (H1), Slug, `serviceType` (ref), Subtitle (H2), Description (≤140 chars), Button (title/url/variant), Media (1 image or video ref)
   - Section 2: Title (H2), Body (PT), Image (1x1)
   - Section 3: Title (H2), Subtitle (H3), Cards×3 (SVG icons, title, text ≤100)
@@ -110,7 +112,20 @@ File: `deskStructure.ts`.
   - Optional `cardCarousel`
 
 - `portfolio`
+
   - Title, Slug, Portable Text content (images/videos/galleries), refs to `creator`, `workType`, `clientType`, and `services` as refs to `serviceType` taxonomy.
+
+- `newsroomArticle`
+
+  - Basics: Title (≤110), Slug (unique per locale), Dek (140–180 chars), optional Read Minutes
+  - Classification: required `category` (ref → `newsroomCategory`), optional `authors` (ref → `creator`), optional `relatedServices` (refs → `serviceType` or `service`)
+  - Timing: `publishedAt` (required), `embargoAt`, `featured`, `pinUntil`
+  - Hero: `heroStyle` = image or video with conditional validations
+  - Body: portable text, images, video embeds (file/YouTube/Vimeo), pull quotes, CTA block
+  - Gallery: optional image grid
+  - Social: only required when Category = Social (platform, caption 70–200 chars, postUrl or media)
+  - SEO: metaTitle, metaDescription, canonical, image
+  - Flags: `hideFromFeeds`, `workflow`
 
 - `creator`, `testimonial`, `legal`, `video`, `redirect`
   - Standard localized docs with localized slugs and i18n fields.
@@ -118,6 +133,7 @@ File: `deskStructure.ts`.
 ### Non‑localized Taxonomies
 
 - `serviceType`, `skill`, `workType`, `clientType` (simple Title + Slug value)
+- `newsroomCategory` (Name, Slug, optional Description, SVG icon)
 
 ### i18n Infra
 
@@ -131,18 +147,86 @@ File: `deskStructure.ts`.
 
 ---
 
+## Using Taxonomies (Collections)
+
+- **Non‑localized by design**: A single set shared across locales for consistent classification.
+- **Where they are used**
+  - `serviceType` → `service.serviceType` and `portfolio.services[]`
+  - `skill` → `creator.skills[]`
+  - `workType` → `portfolio.workType[]`
+  - `clientType` → `portfolio.clientType[]`
+  - `newsroomCategory` → `newsroomArticle.category`
+- **How to manage**
+  - Create new taxonomy items in the Taxonomies group. Each has a Name and Slug (auto from name).
+  - Do not translate these. Names should be editorially neutral and short.
+  - Changing a taxonomy updates all content referencing it.
+
+---
+
+## Site Settings (Per‑locale)
+
+File: `schemaTypes/siteSettings.ts`
+
+- **Fields**
+  - `siteTitle` (required)
+  - `domain` (primary URL)
+  - `navigation[]` of `{label, url}` (internal slug or full URL)
+  - `footerText`
+- **Typical usage**
+  - Build header nav and footer from this document for the active locale.
+  - Keep labels localized; use absolute URLs for off‑site links.
+
+---
+
+## Dictionary (Per‑locale microcopy)
+
+File: `schemaTypes/dictionary.ts`
+
+- **Purpose**: Central store of UI strings (button labels, small messages) per locale.
+- **Shape**: `entries[]` of `{ key, value, notes }`.
+- **Conventions**
+  - Use dot‑keys (e.g., `cta.primary`, `footer.legal`) for grouping.
+  - Keys should be stable; change values to update text.
+- **Frontend**
+  - Query per locale and inject into your app’s i18n layer.
+  - Example (already in this README under “Useful GROQ Snippets”).
+
+---
+
+## Glossary Term (Translation guidance)
+
+File: `schemaTypes/glossaryTerm.ts`
+
+- **Purpose**: Maintain preferred translations or mark terms as Do‑Not‑Translate for MT and editorial review.
+- **Fields**: `source`, `targets[{locale, value}]`, `doNotTranslate`, `notes`.
+- **Notes**
+  - Not rendered directly on the site; used by translation tooling/pipelines.
+  - Helps keep brand and domain terminology consistent across locales.
+
+---
+
+## Content Types Overview (What each is for)
+
+- **Landing**: Home page per locale. Hero and key sections; singleton per locale.
+- **Service**: Service detail pages used for marketing; can feature carousels and structured sections.
+- **Portfolio**: Case studies and work examples; rich body with images, videos, and galleries; linked to creators and taxonomies.
+- **Newsroom Article**: Press releases, updates, insights, etc.; includes classification, hero, body, social, and SEO.
+- **Creator**: Authors or team members to attribute work and articles; connect skills.
+- **Testimonial**: Client quotes with attribution; referenced where needed.
+- **Legal**: Policy and legal pages (e.g., Privacy, Terms) per locale.
+
 ## Add a New Localized Schema
 
-1) Create `schemaTypes/<yourType>.ts`:
+1. Create `schemaTypes/<yourType>.ts`:
 
 - `type: 'document'`
 - `initialValue: withI18nInitialValue()`
 - Prepend `...i18nSharedFields()`
 - Add a slug field using `slugifyLocale` + `isUniqueSlugWithinLocale` if needed.
 
-2) Export it in `schemaTypes/index.ts`.
+2. Export it in `schemaTypes/index.ts`.
 
-3) (Optional) Add to `localizedTypes` in `deskStructure.ts` to appear explicitly under each locale.
+3. (Optional) Add to `localizedTypes` in `deskStructure.ts` to appear explicitly under each locale.
 
 ---
 
