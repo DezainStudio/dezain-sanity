@@ -52,8 +52,10 @@ export const newsroomArticle = defineType({
       title: 'Related Services',
       type: 'array',
       of: [
-        { type: 'reference', to: [{ type: 'serviceType' }] },
-        { type: 'reference', to: [{ type: 'service' }] },
+        {
+          type: 'reference',
+          to: [{ type: 'serviceType' }, { type: 'service' }],
+        },
       ],
     },
 
