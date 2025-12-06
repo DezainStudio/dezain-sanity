@@ -3,6 +3,12 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {deskStructure} from './deskStructure'
+import {translateAction} from './documentActions/translate'
+import {openSiblingsAction} from './documentActions/openSiblings'
+
+console.log('sanity config env debug', {
+  SANITY_STUDIO_TRANSLATE_API_URL: process.env.SANITY_STUDIO_TRANSLATE_API_URL,
+})
 
 export default defineConfig({
   name: 'default',
@@ -27,5 +33,10 @@ export default defineConfig({
         }),
       },
     ],
+  },
+  document: {
+    actions: (prev) => {
+      return [translateAction, openSiblingsAction, ...prev]
+    },
   },
 })

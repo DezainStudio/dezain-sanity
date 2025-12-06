@@ -1,5 +1,5 @@
 import {StructureBuilder} from 'sanity/structure'
-import {ACTIVE_LOCALES} from './schemaTypes/i18n'
+import {ACTIVE_LOCALES, DEFAULT_LOCALE} from './schemaTypes/i18n'
 
 const LOCALE_FLAGS: Record<string, string> = {
   en: '🇬🇧',
@@ -65,6 +65,28 @@ export const deskStructure = (S: StructureBuilder) =>
                         .params({type: t.type, locale: loc}),
                     ),
                 ),
+                // Missing translations for this locale
+                S.listItem()
+                  .title('Missing translations')
+                  .child(
+                    S.list()
+                      .title(`Missing → ${loc.toUpperCase()}`)
+                      .items(
+                        localizedTypes.map((t) =>
+                          S.listItem()
+                            .title(t.title)
+                            .child(
+                              S.documentList()
+                                .id(`missing-${t.type}-${loc}`)
+                                .title(`${t.title} missing in ${loc.toUpperCase()}`)
+                                .filter(
+                                  "_type == $type && locale == $defaultLocale && !(translationKey in *[_type == $type && locale == $targetLocale].translationKey)",
+                                )
+                                .params({ type: t.type, defaultLocale: DEFAULT_LOCALE, targetLocale: loc }),
+                            ),
+                        ),
+                      ),
+                  ),
               ]),
           ),
       ),

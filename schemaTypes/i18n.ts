@@ -1,9 +1,11 @@
-import type { SlugValue } from 'sanity'
+import type {SlugValue} from 'sanity'
 
 // Locales
 export const DEFAULT_LOCALE = 'en'
-export const ACTIVE_LOCALES = ['en', 'lv', 'lt', 'et', 'pl', 'de', 'fr', 'es', 'it'] as const
-export type Locale = typeof ACTIVE_LOCALES[number]
+export const ACTIVE_LOCALES =
+  process.env.SANITY_ACTIVE_LOCALES?.split(',') ||
+  (['en', 'lv', 'lt', 'et', 'pl', 'de', 'fr', 'es', 'it'] as const)
+export type Locale = (typeof ACTIVE_LOCALES)[number]
 
 // Basic latinize + kebab-case slugifier
 export function slugifyLocale(input: string, _locale?: string): string {
@@ -22,9 +24,9 @@ export function slugifyLocale(input: string, _locale?: string): string {
 // Ensure slug uniqueness within the same type + locale
 export async function isUniqueSlugWithinLocale(
   slugValue: SlugValue | string,
-  context: { document: any; getClient: (opts: { apiVersion: string }) => any }
+  context: {document: any; getClient: (opts: {apiVersion: string}) => any},
 ): Promise<boolean> {
-  const { document, getClient } = context
+  const {document, getClient} = context
   const slugCurrent = typeof slugValue === 'string' ? slugValue : slugValue?.current
   if (!slugCurrent) return true
 
@@ -32,8 +34,8 @@ export async function isUniqueSlugWithinLocale(
   const type = document?._type
   const locale = document?.locale || DEFAULT_LOCALE
 
-  const client = getClient({ apiVersion: '2024-05-01' })
-  const params = { slug: slugCurrent, id, type, locale }
+  const client = getClient({apiVersion: '2024-05-01'})
+  const params = {slug: slugCurrent, id, type, locale}
   const query = `count(*[_type == $type && locale == $locale && slug.current == $slug && !(_id in [$id, 'drafts.' + $id])])`
   const count = (await client.fetch(query, params)) as number
   return count === 0
@@ -48,7 +50,7 @@ export function i18nSharedFields() {
       title: 'Locale',
       initialValue: DEFAULT_LOCALE,
       options: {
-        list: ACTIVE_LOCALES.map((l) => ({ title: l.toUpperCase(), value: l })),
+        list: ACTIVE_LOCALES.map((l) => ({title: l.toUpperCase(), value: l})),
         layout: 'radio',
         direction: 'horizontal',
       },
@@ -61,7 +63,7 @@ export function i18nSharedFields() {
       description: 'Sibling documents across locales share the same UUID',
       readOnly: true,
     },
-    { name: 'sourceDocId', type: 'string', title: 'Source Doc ID', readOnly: true },
+    {name: 'sourceDocId', type: 'string', title: 'Source Doc ID', readOnly: true},
     {
       name: 'sourceHash',
       type: 'string',
@@ -74,12 +76,12 @@ export function i18nSharedFields() {
       type: 'object',
       title: 'Translation Metadata',
       fields: [
-        { name: 'provider', type: 'string', options: { list: ['openai'] } },
-        { name: 'status', type: 'string', options: { list: ['machine', 'edited', 'approved'] } },
-        { name: 'createdAt', type: 'datetime' },
-        { name: 'reviewer', type: 'string' },
+        {name: 'provider', type: 'string', options: {list: ['openai']}},
+        {name: 'status', type: 'string', options: {list: ['machine', 'edited', 'approved']}},
+        {name: 'createdAt', type: 'datetime'},
+        {name: 'reviewer', type: 'string'},
       ],
-      options: { collapsible: true, collapsed: true },
+      options: {collapsible: true, collapsed: true},
     },
   ]
 }

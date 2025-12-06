@@ -38,9 +38,39 @@ export const landing = defineType({
       type: 'cardCarousel',
     },
     {
+      name: 'trustedBy',
+      title: 'Trusted By Logos',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'trustedBy'}],
+        },
+      ],
+    },
+    {
       name: 'imageCta',
       title: 'Image CTA',
       type: 'imageCTA',
+    },
+    {
+      name: 'consultation',
+      title: 'Consultation Section',
+      type: 'object',
+      fields: [
+        {
+          name: 'image',
+          title: 'Image',
+          type: 'image',
+          options: {hotspot: true},
+          fields: [{name: 'alt', type: 'string', title: 'ALT'}],
+        },
+        {name: 'title', title: 'Title', type: 'string'},
+        {name: 'description', title: 'Description', type: 'text'},
+        {name: 'buttonText', title: 'Button Text', type: 'string'},
+        {name: 'buttonLink', title: 'Button Link', type: 'url'},
+      ],
+      options: {collapsible: true, collapsed: false},
     },
   ],
 })

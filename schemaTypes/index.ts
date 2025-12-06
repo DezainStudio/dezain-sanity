@@ -17,6 +17,7 @@ import {cardCarousel} from './cardCarousel'
 import {imageCTA} from './imageCTA'
 import {newsroomCategory} from './newsroomCategory'
 import {newsroomArticle} from './newsroomArticle'
+import {trustedBy} from './trustedBy'
 
 export const schemaTypes = [
   // Content types
@@ -25,6 +26,7 @@ export const schemaTypes = [
   video,
   service,
   testimonial,
+  trustedBy,
   legal,
   landing,
   newsroomArticle,
