@@ -1,10 +1,13 @@
 import { defineType } from 'sanity'
+import { i18nSharedFields, withI18nInitialValue } from './i18n'
 
 export const video = defineType({
   name: 'video',
   title: 'Video',
   type: 'document',
+  initialValue: withI18nInitialValue(),
   fields: [
+    ...i18nSharedFields(),
     {
       name: 'url',
       title: 'Video URL',

@@ -1,10 +1,13 @@
 import { defineType } from 'sanity'
+import { i18nSharedFields, slugifyLocale, isUniqueSlugWithinLocale, withI18nInitialValue } from './i18n'
 
 export const portfolio = defineType({
   name: 'portfolio',
   title: 'Portfolio',
   type: 'document',
+  initialValue: withI18nInitialValue(),
   fields: [
+    ...i18nSharedFields(),
     {
       name: 'title',
       title: 'Title',
@@ -18,6 +21,8 @@ export const portfolio = defineType({
       options: {
         source: 'title',
         maxLength: 96,
+        slugify: (input: string, _schemaType: any, context: any) => slugifyLocale(input, context?.document?.locale),
+        isUnique: isUniqueSlugWithinLocale,
       },
     },
     {
@@ -164,7 +169,7 @@ export const portfolio = defineType({
       type: 'array',
       of: [{
         type: 'reference',
-        to: [{ type: 'service' }],
+        to: [{ type: 'serviceType' }],
       }],
     },
     {
