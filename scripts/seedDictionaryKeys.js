@@ -41,6 +41,26 @@ const STATIC_DICTIONARY_KEYS = [
   {key: 'landing.portfolio.heading', value: 'Explore portfolio'},
   {key: 'landing.portfolio.openButton', value: 'Open portfolio'},
 
+  // Portfolio: filters, sort, and view mode
+  {key: 'portfolio.filters.filterLabel', value: 'Filter'},
+  {key: 'portfolio.filters.all', value: 'All'},
+  {key: 'portfolio.filters.clientTypeHeading', value: 'Type of Client'},
+  {key: 'portfolio.filters.workTypeHeading', value: 'Type of Work'},
+  {key: 'portfolio.filters.clearAll', value: 'Clear All'},
+  {key: 'portfolio.filters.cancel', value: 'Cancel'},
+  {key: 'portfolio.filters.modalTitle', value: 'Filter'},
+
+  {key: 'portfolio.sort.sortLabel', value: 'Sort'},
+  {key: 'portfolio.sort.modalTitle', value: 'Sort by'},
+  {key: 'portfolio.sort.newest', value: 'Newest → Oldest'},
+  {key: 'portfolio.sort.oldest', value: 'Oldest → Newest'},
+  {key: 'portfolio.sort.az', value: 'Alphabetical (A–Z)'},
+  {key: 'portfolio.sort.za', value: 'Alphabetical (Z–A)'},
+  {key: 'portfolio.sort.apply', value: 'Apply'},
+
+  {key: 'portfolio.view.gridAria', value: 'Grid view'},
+  {key: 'portfolio.view.listAria', value: 'List view'},
+
   // Footer
   {key: 'footer.termsOfUse', value: 'Terms of Use'},
   {key: 'footer.privacyPolicy', value: 'Privacy Policy'},
