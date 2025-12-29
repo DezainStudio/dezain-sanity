@@ -45,6 +45,16 @@ export const trustedBy = defineType({
       title: 'Portfolio Work',
       type: 'reference',
       to: [{type: 'portfolio'}],
+      options: {
+        filter: ({document}: any) => {
+          const locale = document?.locale
+          if (!locale) return {}
+          return {
+            filter: 'locale == $locale',
+            params: {locale},
+          }
+        },
+      },
       description: 'Case study to open when clicking the logo',
       validation: (Rule) => Rule.required(),
     },

@@ -45,6 +45,16 @@ export const landing = defineType({
         {
           type: 'reference',
           to: [{type: 'trustedBy'}],
+          options: {
+            filter: ({document}: any) => {
+              const locale = document?.locale
+              if (!locale) return {}
+              return {
+                filter: 'locale == $locale',
+                params: {locale},
+              }
+            },
+          },
         },
       ],
     },
