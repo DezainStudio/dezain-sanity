@@ -20,6 +20,7 @@ export const landing = defineType({
       fields: [
         {name: 'title', title: 'Title (H1)', type: 'string', validation: (Rule) => Rule.required()},
         {name: 'subtitle', title: 'Subtitle (H2)', type: 'string'},
+        {name: 'primaryCta', title: 'Primary CTA', type: 'ctaLink'},
         {name: 'ctaText', title: 'CTA Text', type: 'string'},
         {name: 'ctaLink', title: 'CTA Link', type: 'string'},
         {
