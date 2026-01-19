@@ -1,5 +1,10 @@
-import { defineType } from 'sanity'
-import { i18nSharedFields, slugifyLocale, isUniqueSlugWithinLocale, withI18nInitialValue } from './i18n'
+import {defineType} from 'sanity'
+import {
+  i18nSharedFields,
+  slugifyLocale,
+  isUniqueSlugWithinLocale,
+  withI18nInitialValue,
+} from './i18n'
 
 export const portfolio = defineType({
   name: 'portfolio',
@@ -21,7 +26,8 @@ export const portfolio = defineType({
       options: {
         source: 'title',
         maxLength: 96,
-        slugify: (input: string, _schemaType: any, context: any) => slugifyLocale(input, context?.document?.locale),
+        slugify: (input: string, _schemaType: any, context: any) =>
+          slugifyLocale(input, context?.document?.locale),
         isUnique: isUniqueSlugWithinLocale,
       },
     },
@@ -46,24 +52,24 @@ export const portfolio = defineType({
         {
           type: 'block',
           styles: [
-            { title: 'Normal', value: 'normal' },
-            { title: 'H1', value: 'h1' },
-            { title: 'H2', value: 'h2' },
-            { title: 'H3', value: 'h3' },
-            { title: 'H4', value: 'h4' },
-            { title: 'Quote', value: 'blockquote' }
+            {title: 'Normal', value: 'normal'},
+            {title: 'H1', value: 'h1'},
+            {title: 'H2', value: 'h2'},
+            {title: 'H3', value: 'h3'},
+            {title: 'H4', value: 'h4'},
+            {title: 'Quote', value: 'blockquote'},
           ],
           lists: [
-            { title: 'Bullet', value: 'bullet' },
-            { title: 'Numbered', value: 'number' }
+            {title: 'Bullet', value: 'bullet'},
+            {title: 'Numbered', value: 'number'},
           ],
           marks: {
             decorators: [
-              { title: 'Strong', value: 'strong' },
-              { title: 'Emphasis', value: 'em' },
-              { title: 'Code', value: 'code' },
-              { title: 'Underline', value: 'underline' },
-              { title: 'Strike', value: 'strike-through' }
+              {title: 'Strong', value: 'strong'},
+              {title: 'Emphasis', value: 'em'},
+              {title: 'Code', value: 'code'},
+              {title: 'Underline', value: 'underline'},
+              {title: 'Strike', value: 'strike-through'},
             ],
             annotations: [
               {
@@ -74,32 +80,32 @@ export const portfolio = defineType({
                   {
                     name: 'href',
                     type: 'url',
-                    title: 'URL'
-                  }
-                ]
-              }
+                    title: 'URL',
+                  },
+                ],
+              },
             ],
           },
         },
         {
           type: 'image',
           options: {
-            hotspot: true
+            hotspot: true,
           },
           fields: [
             {
               name: 'caption',
               type: 'string',
               title: 'Caption',
-              description: 'Caption displayed below the image'
+              description: 'Caption displayed below the image',
             },
             {
               name: 'alt',
               type: 'string',
               title: 'Alternative text',
-              description: 'Important for SEO and accessibility'
-            }
-          ]
+              description: 'Important for SEO and accessibility',
+            },
+          ],
         },
         {
           type: 'video',
@@ -117,49 +123,49 @@ export const portfolio = defineType({
                 {
                   type: 'image',
                   options: {
-                    hotspot: true
+                    hotspot: true,
                   },
                   fields: [
                     {
                       name: 'caption',
                       type: 'string',
                       title: 'Caption',
-                      description: 'Caption for this image'
+                      description: 'Caption for this image',
                     },
                     {
                       name: 'alt',
                       type: 'string',
                       title: 'Alternative text',
-                      description: 'Important for SEO and accessibility'
-                    }
-                  ]
-                }
+                      description: 'Important for SEO and accessibility',
+                    },
+                  ],
+                },
               ],
               options: {
-                layout: 'grid'
-              }
+                layout: 'grid',
+              },
             },
             {
               name: 'caption',
               type: 'string',
               title: 'Gallery Caption',
-              description: 'Caption for the entire gallery'
-            }
+              description: 'Caption for the entire gallery',
+            },
           ],
           preview: {
             select: {
               images: 'images',
-              caption: 'caption'
+              caption: 'caption',
             },
             prepare(selection) {
               const {images, caption} = selection
               return {
                 title: caption || 'Gallery',
                 subtitle: `Gallery with ${images ? images.length : 0} image(s)`,
-                media: images && images.length > 0 ? images[0] : null
+                media: images && images.length > 0 ? images[0] : null,
               }
-            }
-          }
+            },
+          },
         },
       ],
     },
@@ -167,19 +173,23 @@ export const portfolio = defineType({
       name: 'services',
       title: 'Services',
       type: 'array',
-      of: [{
-        type: 'reference',
-        to: [{ type: 'serviceType' }],
-      }],
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'serviceType'}],
+        },
+      ],
     },
     {
       name: 'creators',
       title: 'Creators',
       type: 'array',
-      of: [{
-        type: 'reference',
-        to: [{ type: 'creator' }],
-      }],
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'creator'}],
+        },
+      ],
     },
     {
       name: 'publishedAt',
@@ -190,19 +200,23 @@ export const portfolio = defineType({
       name: 'workType',
       title: 'Types of Work',
       type: 'array',
-      of: [{
-        type: 'reference',
-        to: [{ type: 'workType' }],
-      }],
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'workType'}],
+        },
+      ],
     },
     {
       name: 'clientType',
       title: 'Types of Client',
       type: 'array',
-      of: [{
-        type: 'reference',
-        to: [{ type: 'clientType' }],
-      }],
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'clientType'}],
+        },
+      ],
     },
   ],
   preview: {
@@ -213,7 +227,7 @@ export const portfolio = defineType({
       slug: 'slug',
     },
     prepare(selection) {
-      const { title, subtitle, media, slug } = selection
+      const {title, subtitle, media, slug} = selection
       return {
         title,
         subtitle: subtitle || 'Portfolio Project',

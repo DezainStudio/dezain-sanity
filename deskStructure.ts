@@ -26,10 +26,10 @@ const localizedTypes: Array<{type: string; title: string}> = [
 ]
 
 const taxonomyTypes: Array<{type: string; title: string}> = [
+  {type: 'serviceType', title: 'Service Types'},
   {type: 'skill', title: 'Skills'},
   {type: 'workType', title: 'Work Types'},
   {type: 'clientType', title: 'Client Types'},
-  {type: 'serviceType', title: 'Service Types'},
 ]
 
 export const deskStructure = (S: StructureBuilder) =>
@@ -51,7 +51,15 @@ export const deskStructure = (S: StructureBuilder) =>
                     S.document()
                       .schemaType('landing')
                       .documentId(`landing-${loc}`)
-                      .initialValueTemplate('landing-by-locale', { locale: loc }),
+                      .initialValueTemplate('landing-by-locale', {locale: loc}),
+                  ),
+                S.listItem()
+                  .title('Services Overview')
+                  .child(
+                    S.document()
+                      .schemaType('servicesOverview')
+                      .documentId(`servicesOverview-${loc}`)
+                      .initialValueTemplate('servicesOverview-by-locale', {locale: loc}),
                   ),
                 // Other localized types (lists)
                 ...localizedTypes.map((t) =>
@@ -80,9 +88,13 @@ export const deskStructure = (S: StructureBuilder) =>
                                 .id(`missing-${t.type}-${loc}`)
                                 .title(`${t.title} missing in ${loc.toUpperCase()}`)
                                 .filter(
-                                  "_type == $type && locale == $defaultLocale && !(translationKey in *[_type == $type && locale == $targetLocale].translationKey)",
+                                  '_type == $type && locale == $defaultLocale && !(translationKey in *[_type == $type && locale == $targetLocale].translationKey)',
                                 )
-                                .params({ type: t.type, defaultLocale: DEFAULT_LOCALE, targetLocale: loc }),
+                                .params({
+                                  type: t.type,
+                                  defaultLocale: DEFAULT_LOCALE,
+                                  targetLocale: loc,
+                                }),
                             ),
                         ),
                       ),

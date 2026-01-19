@@ -41,6 +41,24 @@ export async function isUniqueSlugWithinLocale(
   return count === 0
 }
 
+export async function isUniqueSlugWithinType(
+  slugValue: SlugValue | string,
+  context: {document: any; getClient: (opts: {apiVersion: string}) => any},
+): Promise<boolean> {
+  const {document, getClient} = context
+  const slugCurrent = typeof slugValue === 'string' ? slugValue : slugValue?.current
+  if (!slugCurrent) return true
+
+  const id = document?._id?.replace('drafts.', '')
+  const type = document?._type
+
+  const client = getClient({apiVersion: '2024-05-01'})
+  const params = {slug: slugCurrent, id, type}
+  const query = `count(*[_type == $type && slug.current == $slug && !(_id in [$id, 'drafts.' + $id])])`
+  const count = (await client.fetch(query, params)) as number
+  return count === 0
+}
+
 // Shared i18n fields to prepend to document schemas
 export function i18nSharedFields() {
   return [

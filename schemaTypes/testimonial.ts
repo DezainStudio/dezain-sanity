@@ -1,5 +1,10 @@
-import { defineType } from 'sanity'
-import { i18nSharedFields, slugifyLocale, isUniqueSlugWithinLocale, withI18nInitialValue } from './i18n'
+import {defineType} from 'sanity'
+import {
+  i18nSharedFields,
+  slugifyLocale,
+  isUniqueSlugWithinLocale,
+  withI18nInitialValue,
+} from './i18n'
 
 export const testimonial = defineType({
   name: 'testimonial',
@@ -8,8 +13,9 @@ export const testimonial = defineType({
   initialValue: withI18nInitialValue(),
   fields: [
     ...i18nSharedFields(),
-    { name: 'name', title: 'Name', type: 'string', validation: (Rule) => Rule.required() },
-    { name: 'surname', title: 'Surname', type: 'string', validation: (Rule) => Rule.required() },
+    {name: 'name', title: 'Name', type: 'string', validation: (Rule) => Rule.required()},
+    {name: 'surname', title: 'Surname', type: 'string', validation: (Rule) => Rule.required()},
+    {name: 'role', title: 'Role', type: 'string'},
     {
       name: 'slug',
       title: 'Slug',
@@ -17,50 +23,93 @@ export const testimonial = defineType({
       options: {
         source: (doc: any) => `${doc?.name || ''} ${doc?.surname || ''}`.trim(),
         maxLength: 96,
-        slugify: (input: string, _schemaType: any, context: any) => slugifyLocale(input, context?.document?.locale),
+        slugify: (input: string, _schemaType: any, context: any) =>
+          slugifyLocale(input, context?.document?.locale),
         isUnique: isUniqueSlugWithinLocale,
       },
       validation: (Rule) => Rule.required(),
     },
-    { name: 'text', title: 'Testimonial Text', type: 'text' },
+    {
+      name: 'order',
+      title: 'Sort Order',
+      type: 'number',
+      description: 'Optional manual ordering (lower appears first)',
+    },
+    {name: 'text', title: 'Testimonial Text', type: 'text'},
     {
       name: 'portfolioWork',
       title: 'Portfolio Work',
       type: 'reference',
-      to: [{ type: 'portfolio' }],
+      to: [{type: 'portfolio'}],
+      options: {
+        filter: ({document}: any) => {
+          const locale = document?.locale
+          if (!locale) return {}
+          return {
+            filter: 'locale == $locale',
+            params: {locale},
+          }
+        },
+      },
     },
+    {name: 'linkTitle', title: 'Link Title', type: 'string'},
     {
       name: 'thumbnail',
       title: 'Thumbnail Photo',
       type: 'image',
-      options: { hotspot: true },
-      fields: [{ name: 'alt', type: 'string', title: 'ALT' }],
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'ALT'}],
+    },
+    {
+      name: 'avatar1',
+      title: 'Avatar 1 (Brand / Owner) (1x1)',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'ALT'}],
+    },
+    {
+      name: 'avatar2',
+      title: 'Avatar 2 (Team Member)',
+      type: 'reference',
+      to: [{type: 'creator'}],
+      options: {
+        filter: ({document}: any) => {
+          const locale = document?.locale
+          if (!locale) return {}
+          return {
+            filter: 'locale == $locale',
+            params: {locale},
+          }
+        },
+      },
     },
     {
       name: 'companyLogo',
       title: 'Company Logo (1x1)',
       type: 'image',
-      options: { hotspot: true },
-      fields: [{ name: 'alt', type: 'string', title: 'ALT' }],
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'ALT'}],
     },
     {
       name: 'clientPhoto',
       title: 'Client Photo (1x1)',
       type: 'image',
-      options: { hotspot: true },
-      fields: [{ name: 'alt', type: 'string', title: 'ALT' }],
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'ALT'}],
     },
   ],
   preview: {
     select: {
       name: 'name',
       surname: 'surname',
+      role: 'role',
       media: 'thumbnail',
       companyLogo: 'companyLogo',
     },
-    prepare({ name, surname, media, companyLogo }) {
+    prepare({name, surname, role, media, companyLogo}) {
       return {
         title: [name, surname].filter(Boolean).join(' ') || 'Testimonial',
+        subtitle: role,
         media: media || companyLogo,
       }
     },

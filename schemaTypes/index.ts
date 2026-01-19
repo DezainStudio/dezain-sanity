@@ -18,6 +18,11 @@ import {imageCTA} from './imageCTA'
 import {newsroomCategory} from './newsroomCategory'
 import {newsroomArticle} from './newsroomArticle'
 import {trustedBy} from './trustedBy'
+import {servicesOverview} from './servicesOverview'
+import {sectionTitle} from './sectionTitle'
+import {ctaLink} from './ctaLink'
+import {iconCard} from './iconCard'
+import {serviceDeliverable} from './serviceDeliverable'
 
 export const schemaTypes = [
   // Content types
@@ -29,6 +34,7 @@ export const schemaTypes = [
   trustedBy,
   legal,
   landing,
+  servicesOverview,
   newsroomArticle,
   // Taxonomies / enums (non-localized)
   skill,
@@ -38,6 +44,11 @@ export const schemaTypes = [
   newsroomCategory,
   cardCarousel,
   imageCTA,
+  // Shared object types
+  sectionTitle,
+  ctaLink,
+  iconCard,
+  serviceDeliverable,
   // i18n infra
   siteSettings,
   dictionary,

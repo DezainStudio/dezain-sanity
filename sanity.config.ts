@@ -32,6 +32,15 @@ export default defineConfig({
           locale: params?.locale,
         }),
       },
+      {
+        id: 'servicesOverview-by-locale',
+        title: 'Services Overview (by locale)',
+        schemaType: 'servicesOverview',
+        parameters: [{name: 'locale', type: 'string'}],
+        value: (params: {locale?: string}) => ({
+          locale: params?.locale,
+        }),
+      },
     ],
   },
   document: {
