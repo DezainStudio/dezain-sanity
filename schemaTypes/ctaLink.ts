@@ -6,7 +6,7 @@ export const ctaLink = defineType({
   type: 'object',
   fields: [
     {name: 'text', title: 'Text', type: 'string'},
-    {name: 'link', title: 'Link', type: 'url'},
+    {name: 'link', title: 'Link', type: 'string'},
     {name: 'withArrow', title: 'With Arrow', type: 'boolean'},
   ],
   options: {collapsible: true, collapsed: false},
