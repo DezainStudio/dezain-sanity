@@ -28,7 +28,7 @@ export const cardCarousel = defineType({
               name: 'text',
               title: 'Text',
               type: 'string',
-              validation: (Rule) => Rule.max(100),
+              validation: (Rule) => Rule.max(140),
             },
           ],
           preview: {select: {title: 'title', media: 'image'}},

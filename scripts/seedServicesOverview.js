@@ -50,6 +50,54 @@ const SERVICES_OVERVIEW_CONTENT = {
       withArrow: false,
     },
   },
+  allServicesCarousel: {
+    title: null,
+    subtitle: null,
+    cards: [
+      {
+        _type: 'carouselCard',
+        _key: 'svc1',
+        title: 'Brand & Identity',
+        text: 'Logos, names, and brand systems for trust, recognition, and clarity across digital, print, and motion.',
+      },
+      {
+        _type: 'carouselCard',
+        _key: 'svc2',
+        title: 'Web & Digital',
+        text: 'Websites, apps, and stores built for speed, UX, SEO, and conversion on all devices and platforms.',
+      },
+      {
+        _type: 'carouselCard',
+        _key: 'svc3',
+        title: 'Marketing & Growth',
+        text: 'Campaigns, content, and funnels that grow reach, leads, and revenue with strategy.',
+      },
+      {
+        _type: 'carouselCard',
+        _key: 'svc4',
+        title: 'AI & Data',
+        text: 'Intelligent automation and data-driven insights that scale your operations.',
+      },
+      {
+        _type: 'carouselCard',
+        _key: 'svc5',
+        title: 'Visual & Motion',
+        text: 'Photography, video, and motion graphics that capture attention and tell your story.',
+      },
+      {
+        _type: 'carouselCard',
+        _key: 'svc6',
+        title: 'Print & Packaging',
+        text: 'Physical touchpoints designed for impact—from business cards to product packaging.',
+      },
+      {
+        _type: 'carouselCard',
+        _key: 'svc7',
+        title: 'Advisory & Training',
+        text: 'Strategic guidance and team training to build internal design capabilities.',
+      },
+    ],
+  },
   sellingPoints: {
     header: {
       smallTitle: null,
@@ -162,6 +210,7 @@ async function seedServicesOverviewForLocale(locale) {
     locale,
     translationKey,
     header: SERVICES_OVERVIEW_CONTENT.header,
+    allServicesCarousel: SERVICES_OVERVIEW_CONTENT.allServicesCarousel,
     sellingPoints: SERVICES_OVERVIEW_CONTENT.sellingPoints,
     testimonialsHeader: SERVICES_OVERVIEW_CONTENT.testimonialsHeader,
     process: SERVICES_OVERVIEW_CONTENT.process,
