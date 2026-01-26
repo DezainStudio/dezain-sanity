@@ -22,9 +22,9 @@ export const servicesOverview = defineType({
       options: {collapsible: true, collapsed: false},
     },
     {
-      name: 'allServicesHeader',
-      title: 'All Services Header',
-      type: 'sectionTitle',
+      name: 'allServicesCarousel',
+      title: 'All Services Carousel',
+      type: 'cardCarousel',
     },
     {
       name: 'sellingPoints',
@@ -41,27 +41,6 @@ export const servicesOverview = defineType({
         },
       ],
       options: {collapsible: true, collapsed: false},
-    },
-    {
-      name: 'trustedBy',
-      title: 'Trusted By Logos',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'trustedBy'}],
-          options: {
-            filter: ({document}: any) => {
-              const locale = document?.locale
-              if (!locale) return {}
-              return {
-                filter: 'locale == $locale',
-                params: {locale},
-              }
-            },
-          },
-        },
-      ],
     },
     {
       name: 'testimonialsHeader',

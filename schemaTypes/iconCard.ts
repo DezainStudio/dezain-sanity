@@ -5,8 +5,7 @@ export const iconCard = defineType({
   title: 'Icon Card',
   type: 'object',
   fields: [
-    {name: 'icon', title: 'Icon (Light)', type: 'file', options: {accept: 'image/svg+xml'}},
-    {name: 'iconDark', title: 'Icon (Dark)', type: 'file', options: {accept: 'image/svg+xml'}},
+    {name: 'icon', title: 'Icon', type: 'file', options: {accept: 'image/svg+xml'}},
     {name: 'title', title: 'Title', type: 'string'},
     {name: 'description', title: 'Description', type: 'string'},
   ],
