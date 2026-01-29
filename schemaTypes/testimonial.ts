@@ -70,18 +70,9 @@ export const testimonial = defineType({
     {
       name: 'clientPhoto',
       title: 'Client Photo (1x1)',
-      type: 'reference',
-      to: [{type: 'creator'}],
-      options: {
-        filter: ({document}: any) => {
-          const locale = document?.locale
-          if (!locale) return {}
-          return {
-            filter: 'locale == $locale',
-            params: {locale},
-          }
-        },
-      },
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', type: 'string', title: 'ALT'}],
     },
   ],
   preview: {
