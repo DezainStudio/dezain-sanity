@@ -61,15 +61,15 @@ export const testimonial = defineType({
       fields: [{name: 'alt', type: 'string', title: 'ALT'}],
     },
     {
-      name: 'avatar1',
-      title: 'Avatar 1 (Brand / Owner) (1x1)',
+      name: 'brandLogo',
+      title: 'Brand Logo (1x1)',
       type: 'image',
       options: {hotspot: true},
       fields: [{name: 'alt', type: 'string', title: 'ALT'}],
     },
     {
-      name: 'avatar2',
-      title: 'Avatar 2 (Team Member)',
+      name: 'clientPhoto',
+      title: 'Client Photo (1x1)',
       type: 'reference',
       to: [{type: 'creator'}],
       options: {
@@ -83,34 +83,19 @@ export const testimonial = defineType({
         },
       },
     },
-    {
-      name: 'companyLogo',
-      title: 'Company Logo (1x1)',
-      type: 'image',
-      options: {hotspot: true},
-      fields: [{name: 'alt', type: 'string', title: 'ALT'}],
-    },
-    {
-      name: 'clientPhoto',
-      title: 'Client Photo (1x1)',
-      type: 'image',
-      options: {hotspot: true},
-      fields: [{name: 'alt', type: 'string', title: 'ALT'}],
-    },
   ],
   preview: {
     select: {
       name: 'name',
       surname: 'surname',
       role: 'role',
-      media: 'thumbnail',
-      companyLogo: 'companyLogo',
+      brandLogo: 'brandLogo',
     },
-    prepare({name, surname, role, media, companyLogo}) {
+    prepare({name, surname, role, brandLogo}) {
       return {
         title: [name, surname].filter(Boolean).join(' ') || 'Testimonial',
         subtitle: role,
-        media: media || companyLogo,
+        media: brandLogo,
       }
     },
   },
