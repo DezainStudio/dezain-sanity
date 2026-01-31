@@ -67,7 +67,7 @@ export const servicesOverview = defineType({
       title: 'Deliverables Section',
       type: 'object',
       fields: [
-        {name: 'smallTitle', title: 'Small Title', type: 'string'},
+        {name: 'eyebrow', title: 'Eyebrow', type: 'string'},
         {name: 'title', title: 'Title', type: 'string'},
         {
           name: 'defaultServiceType',
