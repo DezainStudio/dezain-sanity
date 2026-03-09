@@ -32,7 +32,7 @@ function ElapsedTimer({running}: {running: boolean}) {
   const display = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`
 
   return (
-    <span style={{fontSize: 12, color: '#666', fontVariantNumeric: 'tabular-nums'}}>{display}</span>
+    <span style={{fontSize: 12, opacity: 0.5, fontVariantNumeric: 'tabular-nums'}}>{display}</span>
   )
 }
 
@@ -46,7 +46,7 @@ function ProgressBar({progress, status}: {progress: number; status: string}) {
         style={{
           width: '100%',
           height: 6,
-          backgroundColor: '#e5e5e5',
+          backgroundColor: 'var(--card-border-color, rgba(128,128,128,0.2))',
           borderRadius: 3,
           overflow: 'hidden',
         }}
@@ -158,9 +158,12 @@ export const translateAction: DocumentActionComponent = (props) => {
     width: '100%',
     padding: '6px 8px',
     borderRadius: 4,
-    border: '1px solid #ccc',
+    border: '1px solid currentColor',
+    borderColor: 'var(--card-border-color, rgba(128,128,128,0.3))',
     fontSize: 14,
-    backgroundColor: '#fff',
+    backgroundColor: 'var(--card-bg-color, transparent)',
+    color: 'inherit',
+    colorScheme: 'light dark',
   }
 
   const btnBase: React.CSSProperties = {
@@ -247,7 +250,7 @@ export const translateAction: DocumentActionComponent = (props) => {
                             ? '#e53e3e'
                             : progress.step === 'done'
                               ? '#38a169'
-                              : '#555',
+                              : 'inherit',
                         fontWeight: progress.step === 'done' ? 600 : 400,
                       }}
                     >
@@ -265,9 +268,9 @@ export const translateAction: DocumentActionComponent = (props) => {
                     color: '#e53e3e',
                     fontSize: 13,
                     padding: '8px 12px',
-                    backgroundColor: '#fff5f5',
+                    backgroundColor: 'rgba(229, 62, 62, 0.08)',
                     borderRadius: 4,
-                    border: '1px solid #fed7d7',
+                    border: '1px solid rgba(229, 62, 62, 0.2)',
                   }}
                 >
                   {error}
@@ -290,8 +293,9 @@ export const translateAction: DocumentActionComponent = (props) => {
                       disabled={loading}
                       style={{
                         ...btnBase,
-                        backgroundColor: '#eee',
-                        color: loading ? '#999' : '#333',
+                        backgroundColor: 'var(--card-border-color, rgba(128,128,128,0.15))',
+                        color: 'inherit',
+                        opacity: loading ? 0.5 : 1,
                       }}
                     >
                       {loading ? 'Cancel' : 'Close'}
