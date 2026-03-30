@@ -23,6 +23,7 @@ const localizedTypes: Array<{type: string; title: string}> = [
   {type: 'testimonial', title: 'Testimonials'},
   {type: 'video', title: 'Videos'},
   {type: 'redirect', title: 'Redirects'},
+  {type: 'story', title: 'Stories'},
 ]
 
 const taxonomyTypes: Array<{type: string; title: string}> = [
@@ -30,6 +31,7 @@ const taxonomyTypes: Array<{type: string; title: string}> = [
   {type: 'skill', title: 'Skills'},
   {type: 'workType', title: 'Work Types'},
   {type: 'clientType', title: 'Client Types'},
+  {type: 'storyType', title: 'Story Types'},
 ]
 
 export const deskStructure = (S: StructureBuilder) =>
@@ -60,6 +62,14 @@ export const deskStructure = (S: StructureBuilder) =>
                       .schemaType('servicesOverview')
                       .documentId(`servicesOverview-${loc}`)
                       .initialValueTemplate('servicesOverview-by-locale', {locale: loc}),
+                  ),
+                S.listItem()
+                  .title('Mailing Page')
+                  .child(
+                    S.document()
+                      .schemaType('mailingPage')
+                      .documentId(`mailingPage-${loc}`)
+                      .initialValueTemplate('mailingPage-by-locale', {locale: loc}),
                   ),
                 // Other localized types (lists)
                 ...localizedTypes.map((t) =>

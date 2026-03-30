@@ -23,6 +23,9 @@ import {sectionTitle} from './sectionTitle'
 import {ctaLink} from './ctaLink'
 import {iconCard} from './iconCard'
 import {serviceDeliverable} from './serviceDeliverable'
+import {story} from './story'
+import {storyType} from './storyType'
+import {mailingPage} from './mailingPage'
 
 export const schemaTypes = [
   // Content types
@@ -36,12 +39,15 @@ export const schemaTypes = [
   landing,
   servicesOverview,
   newsroomArticle,
+  story,
+  mailingPage,
   // Taxonomies / enums (non-localized)
   skill,
   workType,
   clientType,
   serviceType,
   newsroomCategory,
+  storyType,
   cardCarousel,
   imageCTA,
   // Shared object types
