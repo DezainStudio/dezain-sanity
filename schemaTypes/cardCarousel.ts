@@ -30,6 +30,21 @@ export const cardCarousel = defineType({
               type: 'string',
               validation: (Rule) => Rule.max(140),
             },
+            {
+              name: 'service',
+              title: 'Linked Service (optional)',
+              description:
+                'If set, the card links to this service page. Used by the Services Overview carousel.',
+              type: 'reference',
+              to: [{type: 'service'}],
+              options: {
+                filter: ({document}: any) => {
+                  const locale = document?.locale
+                  if (!locale) return {}
+                  return {filter: 'locale == $locale', params: {locale}}
+                },
+              },
+            },
           ],
           preview: {select: {title: 'title', media: 'image'}},
         },
