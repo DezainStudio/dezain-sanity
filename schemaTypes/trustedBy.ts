@@ -56,7 +56,21 @@ export const trustedBy = defineType({
         },
       },
       description: 'Case study to open when clicking the logo',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.required().custom(async (value: any, context: any) => {
+          if (!value?._ref) return true
+          const docLocale = (context?.document as any)?.locale
+          if (!docLocale) return true
+          const client = context.getClient({apiVersion: '2024-05-01'})
+          const refLocale = await client.fetch(
+            `*[_id == $id][0].locale`,
+            {id: value._ref},
+          )
+          if (refLocale && refLocale !== docLocale) {
+            return `Portfolio locale (${refLocale}) does not match this document's locale (${docLocale}). Pick the ${docLocale} version of this portfolio.`
+          }
+          return true
+        }),
     },
     {
       name: 'order',
